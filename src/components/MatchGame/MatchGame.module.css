@@ -1,0 +1,36 @@
+.content{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.gameN,aiN,userN,userM{
+
+}
+.slider {
+    -webkit-appearance: none;
+    padding:0;
+    width: 150px;
+    height: 15px;
+    border-radius: 20px;
+    background: white;
+    outline: none;
+    -webkit-transition: .1s;
+    transition: opacity .1s;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: darkorange;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+}
