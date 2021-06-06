@@ -1,7 +1,5 @@
 import './App.css';
 import {Route} from "react-router-dom"
-import Header from "./components/Header/Header";
-import Users from "./components/Users/Users"
 import MatchGame from "./components/MatchGame/MatchGame";
 import InitGame from "./components/MatchGame/InitGame";
 

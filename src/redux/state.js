@@ -49,6 +49,7 @@ let store = {
             n = Number(n) + 1;
         if(Number(n) < Number(this._state.matchGame.initM))
             this._state.matchGame.initM = n;
+        this._state.matchGame.currentN = n;
         this._state.matchGame.initN = n;
         this._renderDOM(this._state);
     },
