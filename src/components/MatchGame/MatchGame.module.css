@@ -1,5 +1,6 @@
 .content{
     height: 100vh;
+    width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,7 +17,7 @@
 .score{
     font-size: 3vw;
     min-font-size: 30px;
-    width: 50vw;
+    width: 55vw;
     display: flex;
     justify-direction: row ;
     justify-content: space-between;
@@ -29,7 +30,7 @@
     justify-direction: column ;
 }
 .userM{
-    width: 50vw;
+    width: 55vw;
     font-size: 2vw;
     display:  flex;
     flex-direction: row;
@@ -37,6 +38,7 @@
     justify-content: space-between;
 }
 .buttons{
+    width: 100%;
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-end;
@@ -55,6 +57,10 @@
 .buttons button:hover{
     background-color: darkorange;
     color:white;
+}
+.stack{
+
+    width:100% ;
 }
 .slider {
     -webkit-appearance: none;

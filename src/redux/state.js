@@ -4,7 +4,9 @@ const INIT_GAME = "INIT_GAME";
 const INIT_N = "INIT_N";
 const INIT_M = "INIT_M";
 const SET_FPLAYER = "SET_FPLAYER";
-const SET_VICCOND = "SET_VICCOND";
+const RESET = "RESET";
+const RESTART = "RESTART";
+const REBUILD = "REBUILD";
 export const AC = {
     changeMAC(m) {
         return ({type: CHANGE_M, newM: m})
@@ -21,9 +23,13 @@ export const AC = {
     setFPlayer(fPlayer) {
         return ({type: SET_FPLAYER, fPlayer})
     },
-    setVicCond(vicCond) {
-        return ({type: SET_VICCOND, vicCond})
-    }
+    reset(n, m, fp) {
+        return ({type: RESET, n: n, m: m, fp: fp})
+    },
+    restart() {
+        return ({type: RESTART})
+    },
+
 };
 
 let store = {
@@ -31,7 +37,7 @@ let store = {
         matchGame: {
             vicCond: "0",
             fPlayer: "0",
-            currentPlayer:"0",
+            currentPlayer: "0",
             initN: "25",
             initM: "3",
             currentN: "25",
@@ -48,7 +54,7 @@ let store = {
     _initN(n) {
         if (n % 2 == 0)
             n = Number(n) + 1;
-        if(Number(n) < Number(this._state.matchGame.initM))
+        if (Number(n) < Number(this._state.matchGame.initM))
             this._state.matchGame.initM = n;
         this._state.matchGame.currentN = n;
         this._state.matchGame.initN = n;
@@ -65,8 +71,29 @@ let store = {
         this._state.matchGame.currentPlayer = fP;
         this._renderDOM(this._state);
     },
-    _setVC(vC) {
-        this._state.matchGame.vicCond = vC;
+    _reset(n, m, fp) {
+        this._state.matchGame.userN = 0;
+        this._state.matchGame.aiN = 0;
+        this._state.matchGame.currentM = m;
+        this._state.matchGame.currentN = n
+        this._state.matchGame.initM = m;
+        this._state.matchGame.initN = n;
+        this._state.matchGame.fPlayer = fp;
+        this._state.matchGame.currentPlayer = fp;
+        this._renderDOM(this._state);
+    },
+    _restart() {
+        this._state.matchGame.userN = 0;
+        this._state.matchGame.aiN = 0;
+        this._state.matchGame.currentM = 0;
+        this._state.matchGame.currentN = 0;
+        this._state.matchGame.initM = 3;
+        this._state.matchGame.initN = 25;
+        this._state.matchGame.fPlayer = 0;
+        this._state.matchGame.currentPlayer = 0;
+
+    },
+    _rebuild(){
         this._renderDOM(this._state);
     },
     _changeM(newM) {
@@ -77,17 +104,73 @@ let store = {
         this._state.matchGame.currentM = newM;
         this._state.matchGame.currentN = Number(this._state.matchGame.currentN) - Number(newM);
         this._state.matchGame.userN = Number(this._state.matchGame.userN) + Number(newM);
+        if (this._state.matchGame.initM > this._state.matchGame.currentN) {
+            this._state.matchGame.initM = this._state.matchGame.currentN - 1;
+            this._state.matchGame.currentM = this._state.matchGame.currentN - 1;
+        }
         this._renderDOM(this._state);
         this._aIMove();
     },
     _aIMove() {
-        let aiM = "1";
-        //to do AI
+        let aiM = 1;
+        if (this._state.matchGame.initM % 2 == 1) {
+            if (this._state.matchGame.fPlayer == 0) {
+                for (let i = this._state.matchGame.currentN - 1; i > 1; i--) {
+                    if (i % 4 == 0 || i % 4 == 1) {
+                        let g = this._state.matchGame.currentN - i;
+                        if (g >= this._state.matchGame.initM)
+                            break;
+                        if ((g) % 2 == 1) {
+                            aiM = g;
+                            console.log("1")
+                        }
+                    }
+                }
+            } else if (this._state.matchGame.fPlayer == 1) {
+                if (this._state.matchGame.currentN < this.state.matchGame.initN) {
+                    for (let i = this._state.matchGame.currentN - 1; i > 1; i--) {
+                        if (i % 4 == 0 || i % 4 == 1) {
+                            let g = this._state.matchGame.currentN - i;
+                            if (g >= this._state.matchGame.initM)
+                                break;
+                            if ((g) % 2 == 1) {
+                                aiM = g;
+                                console.log("2")
+                            }
+                        }
+                    }
+                }
+            }
+        } else if (this._state.matchGame.initM % 2 == 0) {
+            if (this._state.matchGame.aiN % 2 == 0) {
+                for (let i = this._state.matchGame.currentN - 1; i > 1; i--) {
+                    if (i % 6 == 0 || i % 6 == 1) {
+                        let g = this._state.matchGame.currentN - i;
+                        if (g >= this._state.matchGame.initM)
+                            break;
+                        aiM = g;
+                        console.log("3")
+                    }
+                }
+            } else if (this._state.matchGame.aiN % 2 == 1) {
+                for (let i = this._state.matchGame.currentN - 1; i > 1; i--) {
+                    if (i % 6 == 5) {
+                        let g = this._state.matchGame.currentN - i;
+                        if (g >= this._state.matchGame.initM)
+                            break;
+                        aiM = g;
+                        console.log("4")
+                    }
+                }
 
-        //
-        this._state.matchGame.currentN -= aiM;
-        this._state.matchGame.aiN = Number(this._state.matchGame.aiN) + Number(aiM);
-        this._renderDOM(this._state);
+            }
+        }
+        if (this._state.matchGame.currentN != 0) {
+            this._state.matchGame.currentN -= aiM;
+            this._state.matchGame.aiN = Number(this._state.matchGame.aiN) + Number(aiM);
+            this._renderDOM(this._state);
+        }
+
     },
 
     dispatch(action) {
@@ -101,8 +184,12 @@ let store = {
             this._initM(action.m);
         } else if (action.type === SET_FPLAYER) {
             this._setFP(action.fPlayer);
-        } else if (action.type === SET_VICCOND) {
-            this._setVC(action.vicCond);
+        } else if (action.type === RESET) {
+            this._reset(action.n, action.m, action.fp);
+        } else if (action.type === RESTART) {
+            this._restart();
+        } else if (action.type === REBUILD) {
+            this._rebuild();
         }
     },
     subscribe(observer) {
