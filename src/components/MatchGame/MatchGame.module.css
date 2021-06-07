@@ -1,16 +1,66 @@
 .content{
+    height: 100vh;
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-direction: column;
 }
-.gameN,aiN,userN,userM{
-
+.moveOf{
+    font-size: 5vw;
+    margin-top: -70px;
+    margin-bottom: 50px;
+}
+.mover{
+    color:darkorange;
+}
+.score{
+    font-size: 3vw;
+    min-font-size: 30px;
+    width: 50vw;
+    display: flex;
+    justify-direction: row ;
+    justify-content: space-between;
+    align-items: center;
+}
+.score span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-direction: column ;
+}
+.userM{
+    width: 50vw;
+    font-size: 2vw;
+    display:  flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+.buttons{
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.buttons button{
+    padding:0;
+    border:0 ;
+    border-radius: 20px;
+    margin-left: 20px;
+    height: 2.5vw;
+    width: 15vw;
+    font-size: 2vw;
+    background-color: black;
+    color: white;
+}
+.buttons button:hover{
+    background-color: darkorange;
+    color:white;
 }
 .slider {
     -webkit-appearance: none;
     padding:0;
-    width: 150px;
-    height: 15px;
+    width: 16vw;
+    height: 2vw;
     border-radius: 20px;
     background: white;
     outline: none;
@@ -21,16 +71,16 @@
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
+    width: 2.3vw;
+    height: 2.3vw;
+    border-radius: 20px;
     background: darkorange;
     cursor: pointer;
 }
 
 .slider::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
+    width: 2.3vw;
+    height: 2.3vw;
     border-radius: 50%;
     cursor: pointer;
 }

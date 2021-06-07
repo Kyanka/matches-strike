@@ -36,13 +36,13 @@ const InitGame = (props) => {
                        ref={newM}/>
                 <br/>
                 First move: <br/>
-                Computer
-                <input type="range" min="0" max="1" onChange={setFPlayer}
+                User
+                <input type="range" min="0" max="1" value={props.mG.fPlayer} onChange={setFPlayer}
                        ref={fPlayer} className={s.slider}/>
-                User <br/>
+                Computer<br/>
                 Victory Condition: <br/>
                 Odd
-                <input type="range" min="0" max="1" onChange={setVicCond}
+                <input type="range" min="0" max="1" value={props.mG.vicCond} onChange={setVicCond}
                        ref={vicCond} className={s.slider}/>
                 Eval
                 <p><NavLink to={"/matchGame"}>PLAY</NavLink></p>

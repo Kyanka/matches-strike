@@ -7,10 +7,10 @@ const SET_FPLAYER = "SET_FPLAYER";
 const SET_VICCOND = "SET_VICCOND";
 export const AC = {
     changeMAC(m) {
-        return ({type: CHANGE_M, newM: m,})
+        return ({type: CHANGE_M, newM: m})
     },
-    takeMAC() {
-        return ({type: TAKE_M})
+    takeMAC(m) {
+        return ({type: TAKE_M, newM: m})
     },
     setInitNAC(n) {
         return ({type: INIT_N, n: n})
@@ -31,6 +31,7 @@ let store = {
         matchGame: {
             vicCond: "0",
             fPlayer: "0",
+            currentPlayer:"0",
             initN: "25",
             initM: "3",
             currentN: "25",
@@ -61,23 +62,29 @@ let store = {
     },
     _setFP(fP) {
         this._state.matchGame.fPlayer = fP;
+        this._state.matchGame.currentPlayer = fP;
+        this._renderDOM(this._state);
     },
     _setVC(vC) {
         this._state.matchGame.vicCond = vC;
+        this._renderDOM(this._state);
     },
     _changeM(newM) {
         this._state.matchGame.currentM = newM;
         this._renderDOM(this._state);
     },
-    _takeM() {
-        this._state.matchGame.currentN -= this._state.matchGame.currentM;
-        this._state.matchGame.userN = Number(this._state.matchGame.aiN) + Number(this._state.matchGame.currentM);
+    _takeM(newM) {
+        this._state.matchGame.currentM = newM;
+        this._state.matchGame.currentN = Number(this._state.matchGame.currentN) - Number(newM);
+        this._state.matchGame.userN = Number(this._state.matchGame.userN) + Number(newM);
         this._renderDOM(this._state);
         this._aIMove();
     },
     _aIMove() {
         let aiM = "1";
         //to do AI
+
+        //
         this._state.matchGame.currentN -= aiM;
         this._state.matchGame.aiN = Number(this._state.matchGame.aiN) + Number(aiM);
         this._renderDOM(this._state);
@@ -87,7 +94,7 @@ let store = {
         if (action.type === CHANGE_M) {
             this._changeM(action.newM);
         } else if (action.type === TAKE_M) {
-            this._takeM();
+            this._takeM(action.newM);
         } else if (action.type === INIT_N) {
             this._initN(action.n);
         } else if (action.type === INIT_M) {

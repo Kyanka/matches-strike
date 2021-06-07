@@ -9,6 +9,7 @@ import {BrowserRouter} from "react-router-dom";
 function renderDOM() {
     ReactDOM.render(
         <React.StrictMode>
+            <meta charSet="UTF-8"/>
             <BrowserRouter>
                 <App state={store.state} dispatch={store.dispatch.bind(store)} />
             </BrowserRouter>
