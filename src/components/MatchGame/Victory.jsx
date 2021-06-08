@@ -25,18 +25,15 @@ const Victory = (props) => {
                     <span>User</span>
                     <span>{props.mG.userN}</span>
                 </div>
-                <div>
-                    <span>Matches</span>
-                    <span>{props.mG.currentN}</span>
+                <div className={s.buttons}>
+                    <LinkButton onClick={restart}to='/init'> &#x21ba;RESTART</LinkButton>
                 </div>
                 <div>
                     <span>Computer</span>
                     <span>{props.mG.aiN}</span>
                 </div>
             </div>
-            <div className={s.buttons}>
-                <LinkButton onClick={restart}to='/init'> &#x21ba;RESTART</LinkButton>
-            </div>
+
         </main>
     );
 }

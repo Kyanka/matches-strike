@@ -14,14 +14,20 @@ const MatchGame = (props) => {
         props.dispatch(AC.changeMAC(m));
     }
     let takeM = () => {
-        let m = newM.current.value
-        props.dispatch(AC.takeMAC(m));
+        //let m = newM.current.value
+        props.dispatch(AC.takeMAC());
     }
     let mover = () => {
         if(props.mG.currentPlayer == 0)
-            return("USER")
+            return("USER");
         if(props.mG.currentPlayer == 1)
-            return("COMP")
+            return("COMP");
+    }
+    let moverBlocker = () => {
+        if(props.mG.currentPlayer == 0)
+            return(false);
+        if(props.mG.currentPlayer == 1)
+            return(true);
     }
     let restart = () => {
         props.dispatch(AC.restart());
@@ -52,14 +58,14 @@ const MatchGame = (props) => {
             <div className={s.userM}>
                 <div className={s.stack}>
                     <p>Matches in stuck:{props.mG.currentM}</p>
-                    <input type="range" min="1" max={props.mG.initM} value={props.mG.currentM} onChange={changeM}
+                    <input type="range" min="1" max={props.mG.maxM} value={props.mG.currentM} onChange={changeM}
                            ref={newM} className={s.slider}/>
                 </div>
                 <div className={s.buttons}>
-                    <button onClick={takeM}>TAKE IT</button>
+                    <button disabled={moverBlocker()} onClick={takeM}>TAKE IT</button>
                 </div>
                 <div className={s.buttons}>
-                    <LinkButton onClick={restart}to='/init'> &#x21ba;RESTART</LinkButton>
+                    <LinkButton cP={props.mG.currentPlayer} onClick={restart}to='/init'> &#x21ba;RESTART</LinkButton>
                 </div>
 
             </div>

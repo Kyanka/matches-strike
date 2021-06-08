@@ -11,8 +11,8 @@ export const AC = {
     changeMAC(m) {
         return ({type: CHANGE_M, newM: m})
     },
-    takeMAC(m) {
-        return ({type: TAKE_M, newM: m})
+    takeMAC() {
+        return ({type: TAKE_M})
     },
     setInitNAC(n) {
         return ({type: INIT_N, n: n})
@@ -40,6 +40,7 @@ let store = {
             currentPlayer: "0",
             initN: "25",
             initM: "3",
+            maxM:"3",
             currentN: "25",
             currentM: "1",
             userN: "0",
@@ -64,6 +65,7 @@ let store = {
         if (Number(m) >= Number(this._state.matchGame.initN))
             m = Number(this._state.matchGame.initN);
         this._state.matchGame.initM = m;
+        this._state.matchGame.maxM = m;
         this._renderDOM(this._state);
     },
     _setFP(fP) {
@@ -77,9 +79,13 @@ let store = {
         this._state.matchGame.currentM = m;
         this._state.matchGame.currentN = n
         this._state.matchGame.initM = m;
+        this._state.matchGame.maxM = m;
         this._state.matchGame.initN = n;
         this._state.matchGame.fPlayer = fp;
         this._state.matchGame.currentPlayer = fp;
+        if(fp == 1){
+            this._aIMove();
+        }
         this._renderDOM(this._state);
     },
     _restart() {
@@ -88,6 +94,7 @@ let store = {
         this._state.matchGame.currentM = 0;
         this._state.matchGame.currentN = 0;
         this._state.matchGame.initM = 3;
+        this._state.matchGame.maxM = 3;
         this._state.matchGame.initN = 25;
         this._state.matchGame.fPlayer = 0;
         this._state.matchGame.currentPlayer = 0;
@@ -98,36 +105,29 @@ let store = {
     },
     _changeM(newM) {
         this._state.matchGame.currentM = newM;
+        // if (this._state.matchGame.initM > this._state.matchGame.currentN) {
+        //     this._state.matchGame.initM = this._state.matchGame.currentN;
+        //     this._state.matchGame.currentM = this._state.matchGame.currentN;
+        // }
         this._renderDOM(this._state);
     },
-    _takeM(newM) {
-        this._state.matchGame.currentM = newM;
-        this._state.matchGame.currentN = Number(this._state.matchGame.currentN) - Number(newM);
-        this._state.matchGame.userN = Number(this._state.matchGame.userN) + Number(newM);
-        if (this._state.matchGame.initM > this._state.matchGame.currentN) {
-            this._state.matchGame.initM = this._state.matchGame.currentN - 1;
-            this._state.matchGame.currentM = this._state.matchGame.currentN - 1;
+    _takeM() {
+        this._state.matchGame.currentN = Number(this._state.matchGame.currentN) - Number(this._state.matchGame.currentM);
+        this._state.matchGame.userN = Number(this._state.matchGame.userN) + Number(this._state.matchGame.currentM);
+        this._state.matchGame.currentPlayer = 1;
+        if(this._state.matchGame.currentN <= this._state.matchGame.maxM){
+            this._state.matchGame.maxM = this._state.matchGame.currentN;
+            this._state.matchGame.currentM = this._state.matchGame.currentN;
         }
+        //alert("N" + this._state.matchGame.currentN + "M" + this._state.matchGame.maxM + "m" + this._state.matchGame.currentM)
         this._renderDOM(this._state);
         this._aIMove();
     },
     _aIMove() {
         let aiM = 1;
-        if (this._state.matchGame.initM % 2 == 1) {
-            if (this._state.matchGame.fPlayer == 0) {
-                for (let i = this._state.matchGame.currentN - 1; i > 1; i--) {
-                    if (i % 4 == 0 || i % 4 == 1) {
-                        let g = this._state.matchGame.currentN - i;
-                        if (g >= this._state.matchGame.initM)
-                            break;
-                        if ((g) % 2 == 1) {
-                            aiM = g;
-                            console.log("1")
-                        }
-                    }
-                }
-            } else if (this._state.matchGame.fPlayer == 1) {
-                if (this._state.matchGame.currentN < this.state.matchGame.initN) {
+        setTimeout(() => {
+            if (this._state.matchGame.initM % 2 == 1) {
+                if (this._state.matchGame.fPlayer == 0) {
                     for (let i = this._state.matchGame.currentN - 1; i > 1; i--) {
                         if (i % 4 == 0 || i % 4 == 1) {
                             let g = this._state.matchGame.currentN - i;
@@ -135,49 +135,67 @@ let store = {
                                 break;
                             if ((g) % 2 == 1) {
                                 aiM = g;
-                                console.log("2")
+                                console.log("1")
+                            }
+                        }
+                    }
+                } else if (this._state.matchGame.fPlayer == 1) {
+                    if (this._state.matchGame.currentN < this.state.matchGame.initN) {
+                        for (let i = this._state.matchGame.currentN - 1; i > 1; i--) {
+                            if (i % 4 == 0 || i % 4 == 1) {
+                                let g = this._state.matchGame.currentN - i;
+                                if (g >= this._state.matchGame.initM)
+                                    break;
+                                if ((g) % 2 == 1) {
+                                    aiM = g;
+                                    console.log("2")
+                                }
                             }
                         }
                     }
                 }
-            }
-        } else if (this._state.matchGame.initM % 2 == 0) {
-            if (this._state.matchGame.aiN % 2 == 0) {
-                for (let i = this._state.matchGame.currentN - 1; i > 1; i--) {
-                    if (i % 6 == 0 || i % 6 == 1) {
-                        let g = this._state.matchGame.currentN - i;
-                        if (g >= this._state.matchGame.initM)
-                            break;
-                        aiM = g;
-                        console.log("3")
+            } else if (this._state.matchGame.initM % 2 == 0) {
+                if (this._state.matchGame.aiN % 2 == 0) {
+                    for (let i = this._state.matchGame.currentN - 1; i > 1; i--) {
+                        if (i % 6 == 0 || i % 6 == 1) {
+                            let g = this._state.matchGame.currentN - i;
+                            if (g >= this._state.matchGame.initM)
+                                break;
+                            aiM = g;
+                            console.log("3")
+                        }
                     }
-                }
-            } else if (this._state.matchGame.aiN % 2 == 1) {
-                for (let i = this._state.matchGame.currentN - 1; i > 1; i--) {
-                    if (i % 6 == 5) {
-                        let g = this._state.matchGame.currentN - i;
-                        if (g >= this._state.matchGame.initM)
-                            break;
-                        aiM = g;
-                        console.log("4")
+                } else if (this._state.matchGame.aiN % 2 == 1) {
+                    for (let i = this._state.matchGame.currentN - 1; i > 1; i--) {
+                        if (i % 6 == 5) {
+                            let g = this._state.matchGame.currentN - i;
+                            if (g >= this._state.matchGame.initM)
+                                break;
+                            aiM = g;
+                            console.log("4")
+                        }
                     }
+
                 }
-
             }
-        }
-        if (this._state.matchGame.currentN != 0) {
-            this._state.matchGame.currentN -= aiM;
-            this._state.matchGame.aiN = Number(this._state.matchGame.aiN) + Number(aiM);
-            this._renderDOM(this._state);
-        }
-
+            if (this._state.matchGame.currentN != 0) {
+                this._state.matchGame.currentN -= aiM;
+                if (this._state.matchGame.currentN <= this._state.matchGame.maxM) {
+                    this._state.matchGame.maxM = this._state.matchGame.currentN;
+                    this._state.matchGame.currentM = this._state.matchGame.currentN;
+                }
+                this._state.matchGame.aiN = Number(this._state.matchGame.aiN) + Number(aiM);
+                this._state.matchGame.currentPlayer = 0;
+                this._renderDOM(this._state);
+            }
+        }, 1500)
     },
 
     dispatch(action) {
         if (action.type === CHANGE_M) {
             this._changeM(action.newM);
         } else if (action.type === TAKE_M) {
-            this._takeM(action.newM);
+            this._takeM();
         } else if (action.type === INIT_N) {
             this._initN(action.n);
         } else if (action.type === INIT_M) {

@@ -54,9 +54,15 @@
     background-color: black;
     color: white;
 }
+.buttons button:disabled{
+    background-color: darkgray;
+}
 .buttons button:hover{
     background-color: darkorange;
     color:white;
+}
+.buttons button:hover:disabled{
+    background-color: darkgray;
 }
 .stack{
 
