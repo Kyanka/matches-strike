@@ -8,20 +8,21 @@
     margin: 0;
     width: 0;
     height: 0;
-    border-top: 330px solid transparent;
-    border-left: 480px solid;
-    border-bottom: 330px solid transparent;
+    border-top: 23vw solid transparent;
+    border-left: 35vw solid;
+    border-bottom: 23vw solid transparent;
 }
 .gameText{
     position: absolute;
     left: 50%;
-    margin-left: -215px;
-    font-size: 24px;
+    margin-left: -14vw;
+    font-size: 1.7vw;
     color: floralwhite;
 }
 input{
-    width: 200px;
-    font-size: 15px;
+    width: 12vw;
+    height: 1.3vw;
+    font-size: 1vw;
     padding: 6px 0 4px 10px;
     border: 1px solid #cecece;
     background: #F6F6f6;
@@ -40,7 +41,7 @@ a:hover{
 .slider {
     -webkit-appearance: none;
     padding:0;
-    width: 35px;
+    width: 2vw;
     height: 15px;
     border-radius: 20px;
     background: white;
@@ -52,16 +53,16 @@ a:hover{
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 25px;
-    height: 25px;
+    width: 1.5vw;
+    height: 1.5vw;
     border-radius: 50%;
     background: darkorange;
     cursor: pointer;
 }
 
 .slider::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
+    width: 1vw;
+    height: 1vw;
     border-radius: 50%;
     cursor: pointer;
 }
