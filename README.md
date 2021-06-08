@@ -1,6 +1,8 @@
-# Stormotion test project
-Match Game
+# Match Game
+[Try at hosting](https://60bfdaebb4b9c3579512dbf1--sharp-heyrovsky-6089cd.netlify.app/matchGame)
 
 ![Demonstration of work](demo.gif)
 
-*Created with React*
+Stormotion test project
+
+*Created with React by Mozghova Kateryna*
