@@ -1,5 +1,5 @@
 # Match Game
-[Try at hosting](https://60bfdaebb4b9c3579512dbf1--sharp-heyrovsky-6089cd.netlify.app/matchGame)
+[Try at hosting](https://sharp-heyrovsky-6089cd.netlify.app/)
 
 ![Demonstration of work](demo.gif)
 
