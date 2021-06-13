@@ -10,9 +10,9 @@ function App(props) {
         <div className="App">
             {/*<Header/>*/}
                 <Route path='/' render={()=><Redirect to="/init"/>}/>
-                <Route path='/init' render={()=><InitGame mG = {props.state.matchGame} dispatch ={props.dispatch}/>}/>
-                <Route path='/matchGame' render={() => <MatchGame mG={props.state.matchGame} dispatch={props.dispatch}/>}/>
-                <Route path='/victory' render={() => <Victory mG={props.state.matchGame} dispatch={props.dispatch}/>}/>
+                <Route path='/init' render={()=><InitGame mG = {props.state.game} dispatch ={props.dispatch}/>}/>
+                <Route path='/matchGame' render={() => <MatchGame mG={props.state.game} dispatch={props.dispatch}/>}/>
+                <Route path='/victory' render={() => <Victory mG={props.state.game} dispatch={props.dispatch}/>}/>
         </div>
     );
 };

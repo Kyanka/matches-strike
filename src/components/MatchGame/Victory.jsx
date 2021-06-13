@@ -1,6 +1,6 @@
 import s from "./Victory.module.css"
 import * as React from "react";
-import {AC} from "../../redux/state";
+import {AC} from "../../redux/victoryReducer";
 import LinkButton from "./LinkButton";
 
 

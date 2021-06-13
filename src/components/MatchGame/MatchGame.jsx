@@ -1,6 +1,6 @@
 import s from "./MatchGame.module.css"
 import * as React from "react";
-import {AC} from "../../redux/state";
+import {AC} from "../../redux/matchGameReducer";
 import LinkButton from './LinkButton'
 import { Redirect } from 'react-router'
 
