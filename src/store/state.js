@@ -1,4 +1,4 @@
-import matchGameReducer from "./matchGameReducer";
+import gameReducer from "./gameReducer";
 import initGameReducer from "./initGameReducer";
 import {act} from "@testing-library/react";
 import victoryReducer from "./victoryReducer";
@@ -195,7 +195,7 @@ let store = {
         console.log(action);
        //debugger;
         console.log(this._state);
-        this._state = matchGameReducer(this._state, action);
+        this._state = gameReducer(this._state, action);
         this._state = initGameReducer(this._state,action);
         this._state = victoryReducer(this._state,action);
         this._rebuild();

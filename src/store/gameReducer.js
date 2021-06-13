@@ -1,21 +1,41 @@
+const INIT_N = "INIT_N";
+const INIT_M = "INIT_M";
+const SET_FPLAYER = "SET_FPLAYER";
+const INIT = "INIT";
+
 const TAKE_M = "TAKE_M";
 const CHANGE_M = "CHANGE_M";
 const RESTART = "RESTART";
 
+
 let initState = {
+    game: {
         vicCond: "0",
         fPlayer: "0",
         currentPlayer: "0",
         initN: "25",
         initM: "3",
-        maxM:"3",
+        maxM: "3",
         currentN: "25",
         currentM: "1",
         userN: "0",
         aiN: "0",
+    },
 };
 
 export const AC = {
+    setInitNAC(n) {
+        return ({type: INIT_N, n: n})
+    },
+    setInitMAC(m) {
+        return ({type: INIT_M, m})
+    },
+    setFPlayer(fP) {
+        return ({type: SET_FPLAYER, fP: fP})
+    },
+    init() {
+        return ({type: INIT})
+    },
     changeMAC(m) {
         return ({type: CHANGE_M, newM: m})
     },
@@ -27,10 +47,43 @@ export const AC = {
     },
 };
 
-const matchGameReducer = (state, action) => {
+const gameReducer = (state = initState, action) => {
+    const initFunc = {
+        _initN(n) {
+            if (n % 2 == 0)
+                n = Number(n) + 1;
+            if (Number(n) < Number(state.game.initM))
+                state.game.initM = n;
+            state.game.currentN = n;
+            state.game.initN = n;
+            //state._renderDOM(state);
+        },
+        _initM(m) {
+            if (Number(m) >= Number(state.game.initN))
+                m = Number(state.game.initN);
+            state.game.initM = m;
+            state.game.maxM = m;
+            state.game.currentM = m;
+            //this._renderDOM(state);
+        },
+        _setFP(fP) {
+            state.game.fPlayer = fP;
+            state.game.currentPlayer = fP;
+            //state._renderDOM(state);
+        },
+        _init() {
+            //debugger
+            state.game.userN = 0;
+            state.game.aiN = 0;
+            if (state.game.fPlayer == 1) {
+                gameFunc._aIMove();
+            }
 
+        },
+    };
     const gameFunc = {
         _changeM(newM) {
+            //debugger
             state.game.currentM = newM;
             //this._renderDOM(state);
         },
@@ -50,7 +103,7 @@ const matchGameReducer = (state, action) => {
         },
         _aIMove() {
             let aiM = 1;
-            //setTimeout(() => {
+            setTimeout(() => {
                 if (state.game.initM % 2 == 1) {
                     if (state.game.fPlayer == 0) {
                         for (let i = state.game.currentN - 1; i > 1; i--) {
@@ -65,7 +118,7 @@ const matchGameReducer = (state, action) => {
                             }
                         }
                     } else if (state.game.fPlayer == 1) {
-                        if (state.game.currentN < this.state.game.initN) {
+                        if (state.game.currentN < state.game.initN) {
                             for (let i = state.game.currentN - 1; i > 1; i--) {
                                 if (i % 4 == 0 || i % 4 == 1) {
                                     let g = state.game.currentN - i;
@@ -113,13 +166,13 @@ const matchGameReducer = (state, action) => {
                     state.game.currentPlayer = 0;
                     //state._renderDOM(state);
                 }
-            //}, 1500)
+            }, 1500)
         },
         _restart() {
             state.game.userN = 0;
             state.game.aiN = 0;
-            state.game.currentM = 0;
-            state.game.currentN = 0;
+            state.game.currentM = 3;
+            state.game.currentN = 25;
             state.game.initM = 3;
             state.game.maxM = 3;
             state.game.initN = 25;
@@ -127,23 +180,17 @@ const matchGameReducer = (state, action) => {
             state.game.currentPlayer = 0;
 
         },
-        // _init(n, m, fp) {
-        //     state.game.userN = 0;
-        //     state.game.aiN = 0;
-        //     state.game.currentM = m;
-        //     state.game.currentN = n
-        //     state.game.initM = m;
-        //     state.game.maxM = m;
-        //     state.game.initN = n;
-        //     state.game.fPlayer = fp;
-        //     state.game.currentPlayer = fp;
-        //     // if (fp == 1) {
-        //     //     state._aIMove();
-        //     // }
-        //     //state._renderDOM(state);
-        // },
     };
+    console.log(action,state);
     switch (action.type){
+        case INIT_N:
+            initFunc._initN(action.n); break;
+        case INIT_M:
+            initFunc._initM(action.m); break;
+        case SET_FPLAYER:
+            initFunc._setFP(action.fP); break;
+        case INIT:
+            initFunc._init(action.n, action.m, action.fP); break;
         case CHANGE_M:
             gameFunc._changeM(action.newM); break;
         case TAKE_M:
@@ -153,4 +200,4 @@ const matchGameReducer = (state, action) => {
     }
     return (state);
 };
-export default matchGameReducer;
+export default gameReducer;
