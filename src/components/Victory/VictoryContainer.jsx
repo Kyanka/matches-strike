@@ -1,5 +1,5 @@
 import * as React from "react";
-import {AC} from "../../store/gameReducer";
+import {restart} from "../../store/controllers";
 import {connect} from "react-redux";
 import Victory from "./Victory";
 
@@ -13,12 +13,8 @@ let mapStateToProps = (state) => {
 }
 let mapDispatchToProps = (dispatch) => {
     return ({
-        restart: () => {
-            dispatch(AC.restart());
-        },
+        restart: () => restart(dispatch)
     });
-
-
 };
 const VictoryContainer = connect(mapStateToProps, mapDispatchToProps)(Victory);
 export default VictoryContainer;
