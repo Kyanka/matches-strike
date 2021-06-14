@@ -3,12 +3,17 @@ import {restart} from "../../store/controllers";
 import {connect} from "react-redux";
 import Victory from "./Victory";
 
-
+let checkWin = (aiN) => {
+    let win = "USER";
+    if(aiN % 2 == 0) win = "COMPUTER"
+    else win = "USER"
+    return(win);
+}
 let mapStateToProps = (state) => {
     return ({
-        aiN: state.game.aiN,
-        userN: state.game.userN,
-        checkWin: state.game.aiN % 2 == 0 ? "COMPUTER" : "USER"
+        aiN: state.aiN,
+        userN: state.userN,
+        checkWin: checkWin(state.aiN)
     });
 }
 let mapDispatchToProps = (dispatch) => {

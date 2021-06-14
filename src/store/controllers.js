@@ -36,17 +36,17 @@ export const init = (dispatch,) => {
     if (state.fPlayer == 1) {
         _aIMove(dispatch);
     }
-
 };
 let _aIMove = (dispatch) => {
+    state = store.getState();
     let aiM = 1;
     setTimeout(() => {
-        if (state.game.initM % 2 == 1) {
-            if (state.game.fPlayer == 0) {
-                for (let i = state.game.currentN - 1; i > 1; i--) {
+        if (state.initM % 2 == 1) {
+            if (state.fPlayer == 0) {
+                for (let i = state.currentN - 1; i > 1; i--) {
                     if (i % 4 == 0 || i % 4 == 1) {
-                        let g = state.game.currentN - i;
-                        if (g >= state.game.initM)
+                        let g = state.currentN - i;
+                        if (g >= state.initM)
                             break;
                         if ((g) % 2 == 1) {
                             aiM = g;
@@ -54,12 +54,12 @@ let _aIMove = (dispatch) => {
                         }
                     }
                 }
-            } else if (state.game.fPlayer == 1) {
-                if (state.game.currentN < state.game.initN) {
-                    for (let i = state.game.currentN - 1; i > 1; i--) {
+            } else if (state.fPlayer == 1) {
+                if (state.currentN < state.initN) {
+                    for (let i = state.currentN - 1; i > 1; i--) {
                         if (i % 4 == 0 || i % 4 == 1) {
-                            let g = state.game.currentN - i;
-                            if (g >= state.game.initM)
+                            let g = state.currentN - i;
+                            if (g >= state.initM)
                                 break;
                             if ((g) % 2 == 1) {
                                 aiM = g;
@@ -69,22 +69,22 @@ let _aIMove = (dispatch) => {
                     }
                 }
             }
-        } else if (state.game.initM % 2 == 0) {
-            if (state.game.aiN % 2 == 0) {
-                for (let i = state.game.currentN - 1; i > 1; i--) {
+        } else if (state.initM % 2 == 0) {
+            if (state.aiN % 2 == 0) {
+                for (let i = state.currentN - 1; i > 1; i--) {
                     if (i % 6 == 0 || i % 6 == 1) {
-                        let g = state.game.currentN - i;
-                        if (g >= state.game.initM)
+                        let g = state.currentN - i;
+                        if (g >= state.initM)
                             break;
                         aiM = g;
                         //console.log("3")
                     }
                 }
-            } else if (state.game.aiN % 2 == 1) {
-                for (let i = state.game.currentN - 1; i > 1; i--) {
+            } else if (state.aiN % 2 == 1) {
+                for (let i = state.currentN - 1; i > 1; i--) {
                     if (i % 6 == 5) {
-                        let g = state.game.currentN - i;
-                        if (g >= state.game.initM)
+                        let g = state.currentN - i;
+                        if (g >= state.initM)
                             break;
                         aiM = g;
                         //console.log("4")
@@ -93,32 +93,32 @@ let _aIMove = (dispatch) => {
 
             }
         }
-        if (state.game.currentN != 0) {
+        if (state.currentN != 0) {
             let currentN = state.currentN - aiM;
             dispatch(AC.setCurrentN(currentN));
-            //state.game.currentN -= aiM;
             if (state.currentN <= state.maxM) {
-                dispatch(AC.setMaxM(state.currentN))
-                dispatch(AC.setCurrentM(state.currentN))
-                //state.game.maxM = state.currentN;
-                //state.game.currentM = state.currentN;
+                dispatch(AC.setMaxM(state.currentN - 1))
+                dispatch(AC.setCurrentM(state.currentN -1))
             }
             dispatch(AC.setAIN(Number(state.aiN) + Number(aiM)))
             state.aiN = Number(state.aiN) + Number(aiM);
             dispatch(AC.setCurrentPlayer(0));
         }
-    }, 1500)
+    }, 1500);
+    state = store.getState();
 };
 export const changeM = (dispatch,newM) => {
-    dispatch(AC.setCurrentM(newM))
+    state = store.getState();
+    dispatch(AC.setCurrentM(newM));
 };
 export const takeM = (dispatch,) => {
+    state = store.getState();
     dispatch(AC.setCurrentN(Number(state.currentN) - Number(state.currentM)));
-    dispatch(AC.setUserN(Number(state.currentN) + Number(state.currentM)));
+    dispatch(AC.setUserN(Number(state.userN) + Number(state.currentM)));
     dispatch(AC.setCurrentPlayer(1));
     if (state.currentN <= state.maxM) {
-        dispatch(AC.setMaxM(state.currentN));
-        dispatch(AC.setCurrentM(state.currentN));
+        dispatch(AC.setMaxM(state.currentN - 1));
+        dispatch(AC.setCurrentM(state.currentN -1));
     };
     _aIMove(dispatch);
 };

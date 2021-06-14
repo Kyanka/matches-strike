@@ -1,14 +1,25 @@
 import React from "react";
 //import {AC} from "../../store/gameReducer";
-import {changeM,takeM,restart} from "../../store/controllers";
+import {changeM, restart, takeM} from "../../store/controllers";
 import {connect} from "react-redux";
 import MatchGame from "./MatchGame";
 
+let mover = (pl) => {
+    let mov = "USER"
+    if (Number(pl) === 0) mov = "USER"
+    else mov = "COMP"
+    return (mov);
+}
+let moverBlocker = (pl) => {
+    let mov = true
+    if (Number(pl) === 0) mov = false
+    else mov = true
+    return (mov);
+}
 let mapStateToProps = (state) => {
     return ({
-        mover: state.currentPlayer = 0 ? "USER" : "COMP",
-        moverBlocker: state.currentPlayer = 0 ? false : true,
-
+        mover: mover(state.currentPlayer),
+        moverBlocker: moverBlocker(state.currentPlayer), // = 0 ? true : false,
         userN: state.userN,
         aiN: state.aiN,
         currentN: state.currentN,
@@ -19,9 +30,9 @@ let mapStateToProps = (state) => {
 };
 let mapDispatchToProps = (dispatch) => {
     return ({
-        changeM: m => changeM(dispatch,m),
+        changeM: m => changeM(dispatch, m),
         takeM: () => takeM(dispatch),
-        restart: () =>  restart(dispatch),
+        restart: () => restart(dispatch),
     });
 
 

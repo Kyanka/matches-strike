@@ -20,7 +20,7 @@ let initState = {
     fPlayer: 0,
     currentPlayer: 0,
     currentN: 25,
-    currentM: 1,
+    currentM:3,
     userN: 0,
     aiN: 0,
 
@@ -57,18 +57,27 @@ export const AC = {
 };
 
 const gameReducer = (state = initState, action) => {
-    //console.log(action, state);
     switch (action.type) {
         case INIT_N:
+            return {...state, initN: action.payload}; break;
         case INIT_M:
+            return {...state, initM: action.payload}; break;
         case MAX_M:
+            return {...state, maxM: action.payload}; break;
         case F_PLAYER:
+            return {...state, fPlayer: action.payload}; break;
         case C_PLAYER:
+            return {...state, currentPlayer: action.payload}; break;
         case C_N:
+            return {...state, currentN: action.payload}; break;
+        case C_M:
+            return {...state, currentM: action.payload}; break;
         case USER_N:
+            return {...state, userN: action.payload}; break;
         case AI_N:
-            return {...state, ...action.payload};
+            return {...state, aiN: action.payload}; break;
+        default:
+            return state;
     }
-    return state;
 };
 export default gameReducer;
